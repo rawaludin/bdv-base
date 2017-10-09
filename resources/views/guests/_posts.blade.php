@@ -16,5 +16,5 @@
     @endforelse
 </div>
 <div class="row text-center">
-    {{ $posts->links() }}
+{{ $posts->appends(compact('q'))->links() }}
 </div>

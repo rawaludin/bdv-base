@@ -12,6 +12,6 @@
             {!! Form::close() !!} 
         </div>
     </div>
-    @include('guests._posts', compact('posts'))
+    @include('guests._posts', compact('posts', 'q'))
 </div>
 @endsection
