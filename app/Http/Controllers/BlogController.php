@@ -13,10 +13,16 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::paginate(6);
-        return view('welcome', compact('posts'));
+        $q = $request->input('q', null);
+        if ($q) {
+            $posts = Post::where('title', 'like', "%$q%")
+                ->orWhere('content', 'like', "%$q%")->paginate(6);
+        } else {
+            $posts = Post::paginate(6);
+        }
+        return view('welcome', compact('posts', 'q'));
     }
 
     /**
