@@ -13,7 +13,8 @@
 
 Route::get('/', 'BlogController@index');
 Route::get('/article/{post}', 'BlogController@show');
-Route::prefix('manage')->group(function() {
+Route::get('/authors/{user}', 'BlogController@author');
+Route::prefix('manage')->middleware('auth')->group(function() {
     Route::resource('posts', 'PostController');
 });
 

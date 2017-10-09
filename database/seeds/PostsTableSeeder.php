@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Post;
+use App\User;
 
 class PostsTableSeeder extends Seeder
 {
@@ -12,6 +13,9 @@ class PostsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Post::class, 20)->create();
+        $users = User::where('level', User::ACCESS_MEMBER)->get();
+        foreach (range(1,20) as $counter) {
+            factory(Post::class)->create(['author_id' => $users->random()->id]);
+        }
     }
 }

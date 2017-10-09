@@ -14,7 +14,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(10);
+        if (auth()->user()->isAdmin()) {
+            $posts = Post::paginate(10);
+        } else {
+            $posts = auth()->user()->posts()->paginate(10);
+        }
         return view('posts.index', compact('posts'));
     }
 
@@ -36,7 +40,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-		Post::create($request->all());
+		Post::create($request->only('title', 'content') + ['author_id' => auth()->user()->id]);
 		return redirect()->route('posts.index');
     }
 
@@ -59,6 +63,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
 		return view('posts.edit', compact('post'));
     }
 
@@ -71,6 +76,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
         $post->update($request->all());
         return redirect()->route('posts.index');
     }
@@ -83,6 +89,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
 		$post->delete();
 		return redirect()->route('posts.index');
     }

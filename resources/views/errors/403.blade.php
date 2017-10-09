@@ -1,7 +1,10 @@
+
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
-    @include('guests._posts', compact('posts'))
+    <p>
+        Maaf Anda tidak punya akses untuk halaman ini.
+    </p>
 </div>
 @endsection
