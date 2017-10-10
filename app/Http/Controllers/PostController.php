@@ -40,6 +40,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        flash('Berhasil menyimpan '.$request->input('title'))->success();
 		Post::create($request->only('title', 'content') + ['author_id' => auth()->user()->id]);
 		return redirect()->route('posts.index');
     }
